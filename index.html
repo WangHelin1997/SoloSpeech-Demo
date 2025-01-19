@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="SoloSpeech: Enhancing Intelligibility and Quality in Target Speaker Extraction through a Cascaded Generative Pipeline">
+  <meta name="keywords" content="Target speech extraction, generative model, latent diffusion model, speech separation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SoloSpeech</title>
+  <style>
+    /* 样式定义 */
+    .media-cell {
+      text-align: center; /* 水平居中对齐内容 */
+    }
+
+    .media-cell img {
+      display: block; /* 确保图片独占一行 */
+      margin: 0 auto 15px auto; /* 图片水平居中，下方添加15px间距 */
+      max-width: 100%; /* 图片宽度不超过单元格宽度 */
+      height: auto; /* 高度自适应 */
+    }
+
+    .media-cell audio {
+      width: 100%; /* 音频控件宽度填满单元格 */
+      max-width: 300px; /* 设置音频控件的最大宽度 */
+    }
+
+    /* 可选：为表格添加样式 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L7749G0HJZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L7749G0HJZ');
+</script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body" style="padding-bottom: 24px;">
+    <div class="container  is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">SoloSpeech: Enhancing Intelligibility and Quality in Target Speaker Extraction through a Cascaded Generative Pipeline</h1>
+          <h2 class="title is-4 publication-title">ICML 2025 Submission</h2>
+
+          <!-- <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=I_V0zBMAAAAJ">Helin Wang*</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=pxFJcEEAAAAJ">Meng Yu</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=q6zeG8sAAAAJ">Jiarui Hai*</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=uUmSp1QAAAAJ">Chen Chen</a><sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=Neo-1mIAAAAJ">Yuchen Hu</a><sup>3</sup>,
+            </span>
+            <span class="author-block">
+                <a href="https://ieeexplore.ieee.org/author/37088756700">Rilin Chen</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=G43gXjIAAAAJ">Najim Dehak</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=tMY31_gAAAAJ">Dong Yu</a><sup>2</sup>
+              </span>
+          </div> -->
+
+          <!-- <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Johns Hopkins University </span>
+            <span class="author-block"><sup>2</sup>Tencent AI Lab </span>
+            <span class="author-block"><sup>3</sup>Nanyang Technological University</span>
+          </div> -->
+
+          <!-- <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>*</sup>Work done during an internship at Tencent AI Lab</span>
+          </div> -->
+
+          <!-- <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2409.07556"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+                <a href="https://github.com/WangHelin1997/SSR-Speech" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code&Model</span>
+                </a>
+              </span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section id="abs" class="section" style="padding-top: 0px;">
+  <div class="container  is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <!-- <h2 class="title is-3">TL;DR</h2> -->
+        <div class="content has-text-justified">
+          <p>
+            <b>Target Speech Extraction</b> (TSE) aims to isolate a target speaker’s voice from a mixture of multiple speakers by leveraging speaker-specific cues. 
+            Although recent advancements in TSE have primarily employed discriminative models that offer high perceptual quality, 
+            these models often introduce unwanted artifacts, reduce naturalness, 
+            and are sensitive to discrepancies between training and testing environments. 
+            In contrast, generative models for TSE lag in perceptual quality and intelligibility. 
+            To address these challenges, we present <b>SoloSpeech</b>, a novel <b>cascaded generative pipeline</b> that integrates <b>compression</b>, <b>extraction</b>, <b>reconstruction</b>, and <b>correction</b> processes. 
+            SoloSpeech features a speaker-embedding-free target extractor that utilizes conditional information from the cue audio’s latent space, aligning it with the mixture audio’s latent space to prevent mismatches.
+            Evaluated on the widely-used Libri2Mix dataset, SoloSpeech achieves state-of-the-art <b>intelligibility</b> and <b>quality</b> in target speech extraction and speech separation tasks while demonstrating exceptional <b>generalization on out-of-domain data</b>, 
+            providing at least a <b>16.1% SISNR improvement</b> over the previous best method, USEF-TSE. These findings underscore SoloSpeech’s robustness and versatility in diverse acoustic environments.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop is-centered has-text-centered">
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Overall Pipeline</h2>
+          <img src="./static/images/solospeech-pipeline.png" class="interpolation-image" width="1000"
+            alt="Overall Pipeline of SoloSpeech." />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="toc" class="section" style="padding-top: 0px;">
+  <div class="container  is-fluid">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Table of Contents</h2>
+        <div class="is-centered">
+          <ul>
+            <li><a href="#com"><b>Comparison with SOTAs</b></a></li>
+            <li><a href="#as1"><b>Abalation Studies on the Compressor</b></a></li>
+            <li><a href="#as2"><b>Abalation Studies on the Corrector</b></a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section id="com" class="hero ">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Comparison with SOTAs</h2>
+        </div>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <table class="table" style="background-color: transparent;">
+          <thead>
+            <tr>
+              <th align="center"><strong>Mixture</strong></th>
+              <th align="center"><strong>Cue</strong></th>
+              <th align="center"><strong>Target</strong></th>
+              <th align="center"><strong><span class="icon"><i class="fas fa-magic"></i></span>SoloSpeech</strong></th>
+              <th align="center"><strong>USEF-TSE</strong></th>
+              <th align="center"><strong>SoloAudio</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="media-cell">
+                <img src="./static/audios/baseline/3_mix.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/baseline/3_mix.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/baseline/3_enrollment.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/baseline/3_enrollment.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/baseline/3_ref.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/baseline/3_ref.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/baseline/3_solospeech.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/baseline/3_solospeech.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/baseline/3_useftse.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/baseline/3_useftse.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/baseline/3_soloaudio.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/baseline/3_soloaudio.wav" type="audio/wav">
+                </audio>
+              </td>
+          </tr>
+      <tr>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/1_mix.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/1_mix.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/1_enrollment.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/1_enrollment.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/1_ref.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/1_ref.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/1_solospeech.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/1_solospeech.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/1_useftse.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/1_useftse.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/1_soloaudio.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/1_soloaudio.wav" type="audio/wav">
+            </audio>
+          </td>
+      </tr>
+    <tr>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/2_mix.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/2_mix.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/2_enrollment.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/2_enrollment.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/2_ref.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/2_ref.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/2_solospeech.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/2_solospeech.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/2_useftse.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/2_useftse.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/2_soloaudio.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/2_soloaudio.wav" type="audio/wav">
+            </audio>
+          </td>
+      </tr>
+    <tr>
+      <td class="media-cell">
+        <img src="./static/audios/baseline/4_mix.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/baseline/4_mix.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/baseline/4_enrollment.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/baseline/4_enrollment.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/baseline/4_ref.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/baseline/4_ref.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/baseline/4_solospeech.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/baseline/4_solospeech.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/baseline/4_useftse.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/baseline/4_useftse.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/baseline/4_soloaudio.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/baseline/4_soloaudio.wav" type="audio/wav">
+        </audio>
+      </td>
+  </tr>
+  <tr>
+    <td class="media-cell">
+      <img src="./static/audios/baseline/5_mix.png" class="interpolation-image" width="300">
+      <audio controls>
+        <source src="static/audios/baseline/5_mix.wav" type="audio/wav">
+      </audio>
+    </td>
+    <td class="media-cell">
+      <img src="./static/audios/baseline/5_enrollment.png" class="interpolation-image" width="300">
+      <audio controls>
+        <source src="static/audios/baseline/5_enrollment.wav" type="audio/wav">
+      </audio>
+    </td>
+    <td class="media-cell">
+      <img src="./static/audios/baseline/5_ref.png" class="interpolation-image" width="300">
+      <audio controls>
+        <source src="static/audios/baseline/5_ref.wav" type="audio/wav">
+      </audio>
+    </td>
+    <td class="media-cell">
+      <img src="./static/audios/baseline/5_solospeech.png" class="interpolation-image" width="300">
+      <audio controls>
+        <source src="static/audios/baseline/5_solospeech.wav" type="audio/wav">
+      </audio>
+    </td>
+    <td class="media-cell">
+      <img src="./static/audios/baseline/5_useftse.png" class="interpolation-image" width="300">
+      <audio controls>
+        <source src="static/audios/baseline/5_useftse.wav" type="audio/wav">
+      </audio>
+    </td>
+    <td class="media-cell">
+      <img src="./static/audios/baseline/5_soloaudio.png" class="interpolation-image" width="300">
+      <audio controls>
+        <source src="static/audios/baseline/5_soloaudio.wav" type="audio/wav">
+      </audio>
+    </td>
+</tr>
+<tr>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/6_mix.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/6_mix.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/6_enrollment.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/6_enrollment.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/6_ref.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/6_ref.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/6_solospeech.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/6_solospeech.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/6_useftse.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/6_useftse.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/6_soloaudio.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/6_soloaudio.wav" type="audio/wav">
+    </audio>
+  </td>
+</tr>
+<tr>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/7_mix.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/7_mix.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/7_enrollment.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/7_enrollment.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/7_ref.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/7_ref.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/7_solospeech.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/7_solospeech.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/7_useftse.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/7_useftse.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/7_soloaudio.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/7_soloaudio.wav" type="audio/wav">
+    </audio>
+  </td>
+</tr>
+<tr>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/8_mix.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/8_mix.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/8_enrollment.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/8_enrollment.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/8_ref.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/8_ref.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/8_solospeech.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/8_solospeech.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/8_useftse.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/8_useftse.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/8_soloaudio.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/8_soloaudio.wav" type="audio/wav">
+    </audio>
+  </td>
+</tr>
+<tr>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/9_mix.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/9_mix.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/9_enrollment.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/9_enrollment.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/9_ref.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/9_ref.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/9_solospeech.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/9_solospeech.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/9_useftse.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/9_useftse.wav" type="audio/wav">
+    </audio>
+  </td>
+  <td class="media-cell">
+    <img src="./static/audios/baseline/9_soloaudio.png" class="interpolation-image" width="300">
+    <audio controls>
+      <source src="static/audios/baseline/9_soloaudio.wav" type="audio/wav">
+    </audio>
+  </td>
+</tr>
+<tr>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/10_mix.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/10_mix.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/10_enrollment.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/10_enrollment.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/10_ref.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/10_ref.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/10_solospeech.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/10_solospeech.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/10_useftse.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/10_useftse.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/baseline/10_soloaudio.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/baseline/10_soloaudio.wav" type="audio/wav">
+            </audio>
+          </td>
+      </tr>
+
+            </tbody>
+        </table>
+      </div>
+              <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                  <a href="#toc" class="button is-primary">Go Back to Table of Contents</a>
+                </div>
+              </div>
+    </div>
+  </div>
+</section>
+
+<section id="as1" class="hero ">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abalation Studies on the Compressor</h2>
+        </div>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <table class="table" style="background-color: transparent;">
+          <thead>
+            <tr>
+              <th align="center"><strong>Mixture</strong></th>
+              <th align="center"><strong>Cue</strong></th>
+              <th align="center"><strong>Target</strong></th>
+              <th align="center"><strong>T-F Audio VAE</strong></th>
+              <th align="center"><strong>Stable Audio VAE</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="media-cell">
+                <img src="./static/audios/compressor/5_mix.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/compressor/5_mix.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/compressor/5_enrollment.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/compressor/5_enrollment.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/compressor/5_ref.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/compressor/5_ref.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/compressor/5_pred.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/compressor/5_pred.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/compressor/5_pred_baseline.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/compressor/5_pred_baseline.wav" type="audio/wav">
+                </audio>
+              </td>
+          </tr>
+      <tr>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/1_mix.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/1_mix.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/1_enrollment.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/1_enrollment.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/1_ref.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/1_ref.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/1_pred.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/1_pred.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/1_pred_baseline.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/1_pred_baseline.wav" type="audio/wav">
+            </audio>
+          </td>
+      </tr>
+    <tr>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/2_mix.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/2_mix.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/2_enrollment.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/2_enrollment.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/2_ref.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/2_ref.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/2_pred.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/2_pred.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/compressor/2_pred_baseline.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/compressor/2_pred_baseline.wav" type="audio/wav">
+            </audio>
+          </td>
+      </tr>
+      <tr>
+        <td class="media-cell">
+          <img src="./static/audios/compressor/3_mix.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/compressor/3_mix.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/compressor/3_enrollment.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/compressor/3_enrollment.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/compressor/3_ref.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/compressor/3_ref.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/compressor/3_pred.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/compressor/3_pred.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/compressor/3_pred_baseline.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/compressor/3_pred_baseline.wav" type="audio/wav">
+          </audio>
+        </td>
+    </tr>
+    <tr>
+      <td class="media-cell">
+        <img src="./static/audios/compressor/4_mix.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/compressor/4_mix.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/compressor/4_enrollment.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/compressor/4_enrollment.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/compressor/4_ref.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/compressor/4_ref.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/compressor/4_pred.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/compressor/4_pred.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/compressor/4_pred_baseline.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/compressor/4_pred_baseline.wav" type="audio/wav">
+        </audio>
+      </td>
+  </tr>
+
+            </tbody>
+        </table>
+      </div>
+              <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                  <a href="#toc" class="button is-primary">Go Back to Table of Contents</a>
+                </div>
+              </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="as2" class="hero ">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abalation Studies on the Corrector</h2>
+        </div>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <table class="table" style="background-color: transparent;">
+          <thead>
+            <tr>
+              <th align="center"><strong>Mixture</strong></th>
+              <th align="center"><strong>Cue</strong></th>
+              <th align="center"><strong>Target</strong></th>
+              <th align="center"><strong>w/ Corrector</strong></th>
+              <th align="center"><strong>w/o Corrector</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="media-cell">
+                <img src="./static/audios/corrector/5_mix.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/corrector/5_mix.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/corrector/5_enrollment.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/corrector/5_enrollment.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/corrector/5_ref.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/corrector/5_ref.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/corrector/5_pred_geco.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/corrector/5_pred_geco.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/corrector/5_pred.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="static/audios/corrector/5_pred.wav" type="audio/wav">
+                </audio>
+              </td>
+          </tr>
+      <tr>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/1_mix.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/1_mix.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/1_enrollment.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/1_enrollment.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/1_ref.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/1_ref.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/1_pred_geco.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/1_pred_geco.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/1_pred.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/1_pred.wav" type="audio/wav">
+            </audio>
+          </td>
+      </tr>
+    <tr>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/2_mix.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/2_mix.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/2_enrollment.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/2_enrollment.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/2_ref.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/2_ref.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/2_pred_geco.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/2_pred_geco.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/corrector/2_pred.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="static/audios/corrector/2_pred.wav" type="audio/wav">
+            </audio>
+          </td>
+      </tr>
+      <tr>
+        <td class="media-cell">
+          <img src="./static/audios/corrector/3_mix.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/corrector/3_mix.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/corrector/3_enrollment.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/corrector/3_enrollment.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/corrector/3_ref.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/corrector/3_ref.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/corrector/3_pred_geco.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/corrector/3_pred_geco.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/corrector/3_pred.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="static/audios/corrector/3_pred.wav" type="audio/wav">
+          </audio>
+        </td>
+    </tr>
+    <tr>
+      <td class="media-cell">
+        <img src="./static/audios/corrector/4_mix.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/corrector/4_mix.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/corrector/4_enrollment.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/corrector/4_enrollment.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/corrector/4_ref.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/corrector/4_ref.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/corrector/4_pred_geco.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/corrector/4_pred_geco.wav" type="audio/wav">
+        </audio>
+      </td>
+      <td class="media-cell">
+        <img src="./static/audios/corrector/4_pred.png" class="interpolation-image" width="300">
+        <audio controls>
+          <source src="static/audios/corrector/4_pred.wav" type="audio/wav">
+        </audio>
+      </td>
+  </tr>
+
+            </tbody>
+        </table>
+      </div>
+              <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                  <a href="#toc" class="button is-primary">Go Back to Table of Contents</a>
+                </div>
+              </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{wang2024ssrspeech,
+      author    = {Wang, Helin and Yu, Meng and Hai, Jiarui and Chen, Chen and Hu, Yuchen and Chen, Rilin and Dehak, Najim and Yu, Dong},
+      title     = {SSR-Speech: Towards Stable, Safe and Robust Zero-shot Text-based Speech Editing and Synthesis},
+      journal   = {arXiv},
+      year      = {2024},
+    }</code></pre>
+  </div>
+</section> -->
+
+
+<footer class="footer">
+  <div class="container is-fluid">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Licenses</h2>
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative
+            Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Website source code based on the <a
+            href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
