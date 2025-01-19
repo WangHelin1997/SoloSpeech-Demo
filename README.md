@@ -1,2 +1,2 @@
-# SSR-Speech Demo
-Audio Demo for "SSR-Speech: Towards Stable, Safe and Robust Zero-shot Text-based Speech Editing and Synthesis"
+# SoloSpeech Demo
+Audio Demo for "SoloSpeech: Enhancing Intelligibility and Quality in Target Speaker Extraction through a Cascaded Generative Pipeline"
