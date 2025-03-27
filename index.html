@@ -189,9 +189,10 @@
         <h2 class="title is-3">Table of Contents</h2>
         <div class="is-centered">
           <ul>
-            <li><a href="#com"><b>Comparison with SOTAs</b></a></li>
-            <li><a href="#as1"><b>Abalation Studies on the Compressor</b></a></li>
-            <li><a href="#as2"><b>Abalation Studies on the Corrector</b></a></li>
+            <li><a href="#com"><b>Comparison on Real-recorded Datasets</b></a></li>
+            <li><a href="#com"><b>Comparison with SOTAs on the Libri2Mix</b></a></li>
+            <li><a href="#as1"><b>Abalation Studies for the Compressor on the Libri2Mix</b></a></li>
+            <li><a href="#as2"><b>Abalation Studies for the Corrector on the Libri2Mix</b></a></li>
           </ul>
         </div>
 
@@ -207,7 +208,294 @@
     <div class="container is-fluid">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Comparison with SOTAs</h2>
+          <h2 class="title is-3">Comparison on Real-recorded Datasets</h2>
+        </div>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h3 class="title is-4"><i class="fas fa-headphones"></i> <a href="https://www.chimechallenge.org/challenges/chime5/index">CHiME-5</a>
+          </h3>
+        </div>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <table class="table" style="background-color: transparent;">
+          <thead>
+            <tr>
+              <th align="center"><strong>Mixture</strong></th>
+              <th align="center"><strong>Cue</strong></th>
+              <th align="center"><strong><span class="icon"><i class="fas fa-magic"></i></span>SoloSpeech</strong></th>
+              <th align="center"><strong>USEF-TSE</strong></th>
+              <th align="center"><strong>SoloAudio</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="media-cell">
+                <img src="./static/audios/real_chime5/S01_P01_01_mix_mix.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_chime5/S01_P01_01_mix_mix.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/real_chime5/S01_P01_01_mix_enrollment.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_chime5/S01_P01_01_mix_enrollment.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/real_chime5/S01_P01_01_mix_solospeech.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_chime5/S01_P01_01_mix_solospeech.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/real_chime5/S01_P01_01_mix_useftse.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_chime5/S01_P01_01_mix_useftse.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/real_chime5/S01_P01_01_mix_soloaudio.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_chime5/S01_P01_01_mix_soloaudio.wav" type="audio/wav">
+                </audio>
+              </td>
+          </tr>
+          <tr>
+            <td class="media-cell">
+              <img src="./static/audios/real_chime5/S01_P01_03_mix_mix.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_chime5/S01_P01_03_mix_mix.wav" type="audio/wav">
+              </audio>
+            </td>
+            <td class="media-cell">
+              <img src="./static/audios/real_chime5/S01_P01_03_mix_enrollment.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_chime5/S01_P01_03_mix_enrollment.wav" type="audio/wav">
+              </audio>
+            </td>
+            <td class="media-cell">
+              <img src="./static/audios/real_chime5/S01_P01_03_mix_solospeech.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_chime5/S01_P01_03_mix_solospeech.wav" type="audio/wav">
+              </audio>
+            </td>
+            <td class="media-cell">
+              <img src="./static/audios/real_chime5/S01_P01_03_mix_useftse.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_chime5/S01_P01_03_mix_useftse.wav" type="audio/wav">
+              </audio>
+            </td>
+            <td class="media-cell">
+              <img src="./static/audios/real_chime5/S01_P01_03_mix_soloaudio.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_chime5/S01_P01_03_mix_soloaudio.wav" type="audio/wav">
+              </audio>
+            </td>
+        </tr>
+        <tr>
+          <td class="media-cell">
+            <img src="./static/audios/real_chime5/S21_P48_02_mix_mix.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_chime5/S21_P48_02_mix_mix.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/real_chime5/S21_P48_02_mix_enrollment.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_chime5/S21_P48_02_mix_enrollment.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/real_chime5/S21_P48_02_mix_solospeech.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_chime5/S21_P48_02_mix_solospeech.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/real_chime5/S21_P48_02_mix_useftse.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_chime5/S21_P48_02_mix_useftse.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/real_chime5/S21_P48_02_mix_soloaudio.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_chime5/S21_P48_02_mix_soloaudio.wav" type="audio/wav">
+            </audio>
+          </td>
+      </tr>
+      <tr>
+        <td class="media-cell">
+          <img src="./static/audios/real_chime5/S21_P48_03_mix_mix.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="./static/audios/real_chime5/S21_P48_03_mix_mix.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/real_chime5/S21_P48_03_mix_enrollment.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="./static/audios/real_chime5/S21_P48_03_mix_enrollment.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/real_chime5/S21_P48_03_mix_solospeech.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="./static/audios/real_chime5/S21_P48_03_mix_solospeech.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/real_chime5/S21_P48_03_mix_useftse.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="./static/audios/real_chime5/S21_P48_03_mix_useftse.wav" type="audio/wav">
+          </audio>
+        </td>
+        <td class="media-cell">
+          <img src="./static/audios/real_chime5/S21_P48_03_mix_soloaudio.png" class="interpolation-image" width="300">
+          <audio controls>
+            <source src="./static/audios/real_chime5/S21_P48_03_mix_soloaudio.wav" type="audio/wav">
+          </audio>
+        </td>
+    </tr>
+            </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h3 class="title is-4"><i class="fas fa-headphones"></i> <a href="https://github.com/JusperLee/SonicSim">RealSEP</a>
+          </h3>
+        </div>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <table class="table" style="background-color: transparent;">
+          <thead>
+            <tr>
+              <th align="center"><strong>Mixture</strong></th>
+              <th align="center"><strong>Cue</strong></th>
+              <th align="center"><strong><span class="icon"><i class="fas fa-magic"></i></span>SoloSpeech</strong></th>
+              <th align="center"><strong>USEF-TSE</strong></th>
+              <th align="center"><strong>SoloAudio</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="media-cell">
+                <img src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_mix.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_mix.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_enrollment.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_enrollment.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_solospeech.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_solospeech.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_useftse.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_useftse.wav" type="audio/wav">
+                </audio>
+              </td>
+              <td class="media-cell">
+                <img src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_soloaudio.png" class="interpolation-image" width="300">
+                <audio controls>
+                  <source src="./static/audios/real_sonicset/2azQ1b91cZZ_8494-830_mix_soloaudio.wav" type="audio/wav">
+                </audio>
+              </td>
+          </tr>
+          <tr>
+            <td class="media-cell">
+              <img src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_mix.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_mix.wav" type="audio/wav">
+              </audio>
+            </td>
+            <td class="media-cell">
+              <img src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_enrollment.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_enrollment.wav" type="audio/wav">
+              </audio>
+            </td>
+            <td class="media-cell">
+              <img src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_solospeech.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_solospeech.wav" type="audio/wav">
+              </audio>
+            </td>
+            <td class="media-cell">
+              <img src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_useftse.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_useftse.wav" type="audio/wav">
+              </audio>
+            </td>
+            <td class="media-cell">
+              <img src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_soloaudio.png" class="interpolation-image" width="300">
+              <audio controls>
+                <source src="./static/audios/real_sonicset/D7G3Y4RVNrH_5618-6300_mix_soloaudio.wav" type="audio/wav">
+              </audio>
+            </td>
+        </tr>
+        <tr>
+          <td class="media-cell">
+            <img src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_mix.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_mix.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_enrollment.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_enrollment.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_solospeech.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_solospeech.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_useftse.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_useftse.wav" type="audio/wav">
+            </audio>
+          </td>
+          <td class="media-cell">
+            <img src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_soloaudio.png" class="interpolation-image" width="300">
+            <audio controls>
+              <source src="./static/audios/real_sonicset/GdvgFV5R1Z5_7647-6317_mix_soloaudio.wav" type="audio/wav">
+            </audio>
+          </td>
+      </tr>
+    
+            </tbody>
+        </table>
+      </div>
+              <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                  <a href="#toc" class="button is-primary">Go Back to Table of Contents</a>
+                </div>
+              </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="com" class="hero ">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Comparison with SOTAs on the Libri2Mix</h2>
         </div>
       </div>
       <div class="columns is-centered has-text-centered">
@@ -621,7 +909,7 @@
     <div class="container is-fluid">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Abalation Studies on the Compressor</h2>
+          <h2 class="title is-3">Abalation Studies for the Compressor on the Libri2Mix</h2>
         </div>
       </div>
       <div class="columns is-centered has-text-centered">
@@ -815,7 +1103,7 @@
     <div class="container is-fluid">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Abalation Studies on the Corrector</h2>
+          <h2 class="title is-3">Abalation Studies for the Corrector on the Libri2Mix</h2>
         </div>
       </div>
       <div class="columns is-centered has-text-centered">
